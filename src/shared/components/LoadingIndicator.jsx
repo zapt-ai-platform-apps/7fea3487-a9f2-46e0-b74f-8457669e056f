@@ -9,13 +9,13 @@ export default function LoadingIndicator({ size = 'md' }) {
   };
   
   return (
-    <div className="flex justify-center items-center" role="status">
+    <div className="flex justify-center items-center" role="status" aria-live="polite">
       <svg 
         className={`animate-spin ${sizeClasses[size]} text-gray-500`} 
         xmlns="http://www.w3.org/2000/svg" 
         fill="none" 
         viewBox="0 0 24 24"
-        aria-label="Loading"
+        aria-hidden="true"
       >
         <circle 
           className="opacity-25" 
