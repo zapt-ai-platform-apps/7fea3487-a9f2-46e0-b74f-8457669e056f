@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './app/pages/Dashboard';
 import MapView from './app/pages/MapView';
@@ -7,8 +7,18 @@ import Settings from './app/pages/Settings';
 import Header from './shared/components/Header';
 import Sidebar from './shared/components/Sidebar';
 import { ZaptBadge } from './shared/components/ZaptBadge';
+import { initializeModules } from './modules';
+import * as Sentry from '@sentry/browser';
 
 export default function App() {
+  useEffect(() => {
+    // Initialize modules when app loads
+    initializeModules().catch(error => {
+      console.error('Failed to initialize modules:', error);
+      Sentry.captureException(error);
+    });
+  }, []);
+
   return (
     <Router>
       <div className="flex h-screen bg-gray-100 text-gray-800">

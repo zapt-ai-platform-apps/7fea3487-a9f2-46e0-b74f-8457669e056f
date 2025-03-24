@@ -1,11 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import Dashboard from '@/app/pages/Dashboard';
-import { fetchRecentSocialData } from '@/modules/social/api';
+import { api as socialApi } from '@/modules/social/api';
 
 // Mock the social API module
 vi.mock('@/modules/social/api', () => ({
-  fetchRecentSocialData: vi.fn(),
+  api: {
+    fetchRecentSocialData: vi.fn(),
+  },
 }));
 
 // Sample mock data
@@ -32,11 +34,11 @@ const mockSocialData = [
 
 describe('Dashboard Component', () => {
   beforeEach(() => {
-    fetchRecentSocialData.mockReset();
+    socialApi.fetchRecentSocialData.mockReset();
   });
 
   it('displays loading state initially', () => {
-    fetchRecentSocialData.mockResolvedValue([]);
+    socialApi.fetchRecentSocialData.mockResolvedValue([]);
     render(<Dashboard />);
     
     // Check for loading indicator
@@ -44,12 +46,12 @@ describe('Dashboard Component', () => {
   });
 
   it('fetches and displays social data', async () => {
-    fetchRecentSocialData.mockResolvedValue(mockSocialData);
+    socialApi.fetchRecentSocialData.mockResolvedValue(mockSocialData);
     render(<Dashboard />);
     
     // Wait for data to load
     await waitFor(() => {
-      expect(fetchRecentSocialData).toHaveBeenCalledTimes(1);
+      expect(socialApi.fetchRecentSocialData).toHaveBeenCalledTimes(1);
     });
     
     // Check if data is displayed correctly
@@ -59,7 +61,7 @@ describe('Dashboard Component', () => {
   });
 
   it('calculates and displays stats correctly', async () => {
-    fetchRecentSocialData.mockResolvedValue(mockSocialData);
+    socialApi.fetchRecentSocialData.mockResolvedValue(mockSocialData);
     render(<Dashboard />);
     
     await waitFor(() => {
@@ -72,7 +74,7 @@ describe('Dashboard Component', () => {
   });
 
   it('handles empty data gracefully', async () => {
-    fetchRecentSocialData.mockResolvedValue([]);
+    socialApi.fetchRecentSocialData.mockResolvedValue([]);
     render(<Dashboard />);
     
     await waitFor(() => {

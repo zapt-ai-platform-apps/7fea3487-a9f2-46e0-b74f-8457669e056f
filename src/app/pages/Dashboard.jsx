@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FaMapMarkerAlt } from 'react-icons/fa';
-import { fetchRecentSocialData } from '@/modules/social/api';
+import { api as socialApi } from '@/modules/social/api';
 import LoadingIndicator from '@/shared/components/LoadingIndicator';
 import SocialIcon from '@/shared/components/SocialIcon';
 import RiskBadge from '@/shared/components/RiskBadge';
 import { format } from 'date-fns';
+import * as Sentry from '@sentry/browser';
 
 export default function Dashboard() {
   const [socialData, setSocialData] = useState([]);
@@ -20,7 +21,7 @@ export default function Dashboard() {
     const loadDashboardData = async () => {
       try {
         setLoading(true);
-        const data = await fetchRecentSocialData();
+        const data = await socialApi.fetchRecentSocialData();
         setSocialData(data);
         
         // Calculate stats
@@ -36,6 +37,7 @@ export default function Dashboard() {
         });
       } catch (error) {
         console.error('Error loading dashboard data:', error);
+        Sentry.captureException(error);
       } finally {
         setLoading(false);
       }

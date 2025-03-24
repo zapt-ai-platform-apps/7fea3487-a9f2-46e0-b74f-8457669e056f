@@ -1,11 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import ThreatAnalysis from '@/app/pages/ThreatAnalysis';
-import { fetchThreatAnalysis } from '@/modules/threats/api';
+import { api as threatsApi } from '@/modules/threats/api';
 
 // Mock the threats API module
 vi.mock('@/modules/threats/api', () => ({
-  fetchThreatAnalysis: vi.fn(),
+  api: {
+    fetchThreatAnalysis: vi.fn(),
+  },
 }));
 
 // Sample mock data
@@ -58,22 +60,22 @@ const mockThreats = [
 
 describe('ThreatAnalysis Component', () => {
   beforeEach(() => {
-    fetchThreatAnalysis.mockReset();
+    threatsApi.fetchThreatAnalysis.mockReset();
   });
 
   it('displays loading state initially', () => {
-    fetchThreatAnalysis.mockResolvedValue([]);
+    threatsApi.fetchThreatAnalysis.mockResolvedValue([]);
     render(<ThreatAnalysis />);
     
     expect(screen.getByRole('status')).toBeDefined();
   });
 
   it('fetches and displays threat data', async () => {
-    fetchThreatAnalysis.mockResolvedValue(mockThreats);
+    threatsApi.fetchThreatAnalysis.mockResolvedValue(mockThreats);
     render(<ThreatAnalysis />);
     
     await waitFor(() => {
-      expect(fetchThreatAnalysis).toHaveBeenCalledTimes(1);
+      expect(threatsApi.fetchThreatAnalysis).toHaveBeenCalledTimes(1);
     });
     
     expect(screen.getByText('Test Threat 1')).toBeDefined();
@@ -82,7 +84,7 @@ describe('ThreatAnalysis Component', () => {
   });
 
   it('filters threats by risk level', async () => {
-    fetchThreatAnalysis.mockResolvedValue(mockThreats);
+    threatsApi.fetchThreatAnalysis.mockResolvedValue(mockThreats);
     render(<ThreatAnalysis />);
     
     await waitFor(() => {
@@ -99,7 +101,7 @@ describe('ThreatAnalysis Component', () => {
   });
 
   it('expands threat details when expand button is clicked', async () => {
-    fetchThreatAnalysis.mockResolvedValue(mockThreats);
+    threatsApi.fetchThreatAnalysis.mockResolvedValue(mockThreats);
     render(<ThreatAnalysis />);
     
     await waitFor(() => {

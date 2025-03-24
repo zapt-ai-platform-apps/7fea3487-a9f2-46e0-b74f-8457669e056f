@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { FaExclamationTriangle, FaEye, FaMapMarkerAlt, FaCheck, FaLink } from 'react-icons/fa';
-import { fetchThreatAnalysis } from '@/modules/threats/api';
+import { api as threatsApi } from '@/modules/threats/api';
 import LoadingIndicator from '@/shared/components/LoadingIndicator';
 import SocialIcon from '@/shared/components/SocialIcon';
 import { format } from 'date-fns';
+import * as Sentry from '@sentry/browser';
 
 export default function ThreatAnalysis() {
   const [threats, setThreats] = useState([]);
@@ -15,10 +16,11 @@ export default function ThreatAnalysis() {
     const loadThreatData = async () => {
       try {
         setLoading(true);
-        const data = await fetchThreatAnalysis();
+        const data = await threatsApi.fetchThreatAnalysis();
         setThreats(data);
       } catch (error) {
         console.error('Error loading threat data:', error);
+        Sentry.captureException(error);
       } finally {
         setLoading(false);
       }

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import { fetchGeotaggedPosts } from '@/modules/social/api';
+import { api as socialApi } from '@/modules/social/api';
 import LoadingIndicator from '@/shared/components/LoadingIndicator';
 import SocialIcon from '@/shared/components/SocialIcon';
 import { format } from 'date-fns';
+import * as Sentry from '@sentry/browser';
 
 const mapContainerStyle = {
   width: '100%',
@@ -26,10 +27,11 @@ export default function MapView() {
     const loadMapData = async () => {
       try {
         setLoading(true);
-        const data = await fetchGeotaggedPosts();
+        const data = await socialApi.fetchGeotaggedPosts();
         setPosts(data);
       } catch (error) {
         console.error('Error loading map data:', error);
+        Sentry.captureException(error);
       } finally {
         setLoading(false);
       }
