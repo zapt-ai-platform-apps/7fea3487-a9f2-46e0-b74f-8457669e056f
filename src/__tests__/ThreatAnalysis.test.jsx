@@ -91,7 +91,7 @@ describe('ThreatAnalysis Component', () => {
     });
     
     // Click high risk filter
-    fireEvent.click(screen.getByText('High Risk'));
+    fireEvent.click(screen.getByTestId('filter-high'));
     
     // Should only show high risk threats
     expect(screen.getByText('Test Threat 1')).toBeDefined();
@@ -110,7 +110,7 @@ describe('ThreatAnalysis Component', () => {
     expect(screen.queryByText('Related Social Media Content')).toBeNull();
     
     // Click expand button
-    fireEvent.click(screen.getAllByText('Expand')[0]);
+    fireEvent.click(screen.getByTestId('expand-button-1'));
     
     // Now related content should be visible
     expect(screen.getByText('Related Social Media Content')).toBeDefined();

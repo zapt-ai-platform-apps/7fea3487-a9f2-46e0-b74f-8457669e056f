@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function RiskBadge({ level }) {
+export default function RiskBadge({ level, dataTestId }) {
   const badgeClasses = {
     high: 'bg-red-100 text-red-800',
     medium: 'bg-yellow-100 text-yellow-800',
@@ -14,7 +14,10 @@ export default function RiskBadge({ level }) {
   };
 
   return (
-    <span className={`px-2 py-1 text-xs rounded-full ${badgeClasses[level] || 'bg-gray-100 text-gray-800'}`}>
+    <span 
+      className={`px-2 py-1 text-xs rounded-full ${badgeClasses[level] || 'bg-gray-100 text-gray-800'}`}
+      data-testid={dataTestId}
+    >
       {badgeText[level] || 'Unknown Risk'}
     </span>
   );

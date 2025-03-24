@@ -64,10 +64,10 @@ describe('Dashboard Component', () => {
     
     await waitFor(() => {
       // Total posts should be 2
-      expect(screen.getByText('2')).toBeDefined();
+      expect(screen.getByTestId('total-posts')).toHaveTextContent('2');
       
       // High risk count should be 1
-      expect(screen.getByText('1')).toBeDefined();
+      expect(screen.getByTestId('high-risk-count')).toHaveTextContent('1');
     });
   });
 

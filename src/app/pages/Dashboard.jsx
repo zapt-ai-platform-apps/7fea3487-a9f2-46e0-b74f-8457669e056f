@@ -52,19 +52,19 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white rounded-lg shadow p-4">
           <h2 className="text-gray-500 text-sm font-medium">Total Posts Analyzed</h2>
-          <p className="text-3xl font-bold text-gray-800">{stats.totalPosts}</p>
+          <p className="text-3xl font-bold text-gray-800" data-testid="total-posts">{stats.totalPosts}</p>
         </div>
         <div className="bg-white rounded-lg shadow p-4">
           <h2 className="text-gray-500 text-sm font-medium">High Risk Incidents</h2>
-          <p className="text-3xl font-bold text-red-600">{stats.highRiskCount}</p>
+          <p className="text-3xl font-bold text-red-600" data-testid="high-risk-count">{stats.highRiskCount}</p>
         </div>
         <div className="bg-white rounded-lg shadow p-4">
           <h2 className="text-gray-500 text-sm font-medium">Medium Risk Incidents</h2>
-          <p className="text-3xl font-bold text-yellow-600">{stats.mediumRiskCount}</p>
+          <p className="text-3xl font-bold text-yellow-600" data-testid="medium-risk-count">{stats.mediumRiskCount}</p>
         </div>
         <div className="bg-white rounded-lg shadow p-4">
           <h2 className="text-gray-500 text-sm font-medium">Low Risk Incidents</h2>
-          <p className="text-3xl font-bold text-green-600">{stats.lowRiskCount}</p>
+          <p className="text-3xl font-bold text-green-600" data-testid="low-risk-count">{stats.lowRiskCount}</p>
         </div>
       </div>
       

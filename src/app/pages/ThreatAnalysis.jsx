@@ -55,6 +55,7 @@ export default function ThreatAnalysis() {
                   ? 'bg-gray-700 text-white' 
                   : 'bg-gray-200 text-gray-600 hover:bg-gray-300'
               }`}
+              data-testid="filter-all"
             >
               All
             </button>
@@ -65,6 +66,7 @@ export default function ThreatAnalysis() {
                   ? 'bg-red-600 text-white' 
                   : 'bg-red-100 text-red-800 hover:bg-red-200'
               }`}
+              data-testid="filter-high"
             >
               High Risk
             </button>
@@ -75,6 +77,7 @@ export default function ThreatAnalysis() {
                   ? 'bg-yellow-600 text-white' 
                   : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
               }`}
+              data-testid="filter-medium"
             >
               Medium Risk
             </button>
@@ -85,6 +88,7 @@ export default function ThreatAnalysis() {
                   ? 'bg-green-600 text-white' 
                   : 'bg-green-100 text-green-800 hover:bg-green-200'
               }`}
+              data-testid="filter-low"
             >
               Low Risk
             </button>
@@ -111,17 +115,21 @@ export default function ThreatAnalysis() {
                         <button 
                           onClick={() => toggleThreatExpansion(threat.id)} 
                           className="ml-2 text-xs text-blue-600 hover:text-blue-800 cursor-pointer"
+                          data-testid={`expand-button-${threat.id}`}
                         >
                           {expandedThreat === threat.id ? "Collapse" : "Expand"}
                         </button>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        threat.riskLevel === 'high' 
-                          ? 'bg-red-100 text-red-800' 
-                          : threat.riskLevel === 'medium'
-                            ? 'bg-yellow-100 text-yellow-800'
-                            : 'bg-green-100 text-green-800'
-                      }`}>
+                      <span 
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          threat.riskLevel === 'high' 
+                            ? 'bg-red-100 text-red-800' 
+                            : threat.riskLevel === 'medium'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-green-100 text-green-800'
+                        }`}
+                        data-testid={`risk-badge-${threat.id}`}
+                      >
                         {threat.riskLevel === 'high' 
                           ? 'High Risk' 
                           : threat.riskLevel === 'medium'
@@ -141,7 +149,7 @@ export default function ThreatAnalysis() {
                     <p className="text-gray-700 mb-4">{threat.description}</p>
                     
                     {expandedThreat === threat.id && (
-                      <div className="bg-gray-50 p-4 rounded-lg mt-4">
+                      <div className="bg-gray-50 p-4 rounded-lg mt-4" data-testid={`expanded-content-${threat.id}`}>
                         <h5 className="font-medium mb-2">Related Social Media Content</h5>
                         <div className="space-y-3">
                           {threat.relatedPosts.map((post) => (
